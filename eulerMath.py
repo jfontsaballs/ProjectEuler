@@ -2,6 +2,8 @@
 """
 Math functions
 """
+from functools import reduce
+from eulerGenerators import factor
 
 def isPalindrome(x):
     """
@@ -16,25 +18,45 @@ def isPalindrome(x):
     >>> isPalindrome(350503)
     False
     """
-    return x == reverse(x)
-    
-def reverse(x):
+    return x == _reverse(x)
+
+def _reverse(x):
     remain = x
     reversed = 0
     while remain > 0:
         reversed = reversed * 10 + remain % 10
         remain = remain // 10
     return reversed
-    
-    
-def lowestCommonMultiple(g)
-    for x in g:
-        factor(
 
-        
+
+def lowestCommonMultiple(numbers):
+    """
+    >>> lowestCommonMultiple([20, 30])
+    60
+    >>> lowestCommonMultiple([35, 41, 14])
+    2870
+    """
+    factors = []
+    for x in numbers:
+        factors = _combineFactors(factors, factor(x))
+    return reduce(lambda x, y: x * y, factors)
+
+def _combineFactors(a, b):
+    if a and b:
+        temp = list(b)
+        for x in a:
+            try:
+                temp.remove(x)
+            except ValueError:
+                pass
+        return list(a) + temp
+    else:
+        return list(a or b)
+
+
 ###############################################################################
 if __name__ == "__main__":
     import doctest
     fail, total = doctest.testmod()
     if fail == 0:
-        print("Tot OK.")        
+        print("Tot OK.")
