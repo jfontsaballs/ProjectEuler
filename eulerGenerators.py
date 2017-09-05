@@ -95,6 +95,16 @@ def factor(x):
     else:
         yield x
 
+
+def allFactors(x):
+    """
+    >>> list(allFactors(60))
+    [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30]
+    """
+    for i in range(1, int(x / 2) + 1):
+        if x % i == 0:
+            yield i
+
 ###############################################################################
 if __name__ == "__main__":
     #import datetime
