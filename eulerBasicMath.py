@@ -28,18 +28,31 @@ def squareRoot(x, precision):
         ...
     eulerExceptions.ArgumentMustBeNonNegative: Square root can only be computed on positive values
     """
-    
+
     if x < 0:
         raise ArgumentMustBeNonNegative("Square root can only be computed on positive values")
-    
+
     r = x/2
     previousR = r + 2 * precision
     while abs(previousR - r) > precision:
         previousR = r
         r = (r * r + x) / (2 * r)
     return r
-    
-    
+
+def intSquareRoot(x):
+    """
+    Returns an integer number always bigger or equal than the square root of x
+    """
+
+    return squareRoot(x, 0.5) + 1
+
+def testIntSquareRoot():
+    """
+    >>> testIntSquareRoot()
+    """
+    for i in range(1, 1000000):
+        assert intSquareRoot(i) >= squareRoot(i, 0.0001)
+
 ###############################################################################
 if __name__ == "__main__":
     import doctest
