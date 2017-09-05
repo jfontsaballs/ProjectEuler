@@ -2,8 +2,9 @@
 """
 Iterator functions for generating series of numbers
 """
-from eulerBasicMath import squareRoot
+from eulerBasicMath import intSquareRoot
 from eulerExceptions import ArgumentMustBeNonNegativeInteger
+from timeit import timeit
 import numbers
 
 def fibonacci(max):
@@ -25,17 +26,36 @@ def primes(max):
     >>> list(primes(17))
     [2, 3, 5, 7, 11, 13, 17]
     """
-    primes = [3, 5]
+    primes = [3, 5, 7]
     yield 2
     yield 3
     yield 5
-    for nextCandidate in range(7, int(max) + 1, 2):
-        for prime in primes:
-            if nextCandidate % prime == 0:
-                break
-        else:
+    yield 7
+    for candidate in range(12, int(max) + 10, 6):
+        nextCandidate = candidate - 1
+        if nextCandidate > max:
+            break
+        if _testCandidate(nextCandidate, primes):
             primes.append(nextCandidate)
             yield nextCandidate
+
+        nextCandidate = candidate + 1
+        if nextCandidate > max:
+            break
+        if _testCandidate(nextCandidate, primes):
+            primes.append(nextCandidate)
+            yield nextCandidate
+
+def _testCandidate(candidate, primes):
+    squareRoot = intSquareRoot(candidate)
+    for prime in primes:
+        if candidate % prime == 0:
+            return 0
+        elif prime > squareRoot:
+            return candidate
+    else:
+        return candidate
+
 
 def factor(x):
     """
@@ -67,6 +87,10 @@ def factor(x):
 
 ###############################################################################
 if __name__ == "__main__":
+    #import datetime
+    #d=datetime.datetime.now()
+    #list(primes(1000_000))
+    #print(datetime.datetime.now() - d)
     import doctest
     fail, total = doctest.testmod()
     if fail == 0:
