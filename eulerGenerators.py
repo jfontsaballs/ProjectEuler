@@ -27,6 +27,19 @@ def triangleNumbers(maximum):
     for i in range(1, maximum + 1):
         sum += i
         yield sum
+        
+def collatz(x):
+    """
+    >>> list(collatz(13))
+    [13, 40, 20, 10, 5, 16, 8, 4, 2, 1]
+    """
+    yield x
+    while x != 1:
+        if x % 2 == 0:
+            x //= 2
+        else:
+            x = 3 * x + 1
+        yield x        
 
 def primes(maximum):
     """
